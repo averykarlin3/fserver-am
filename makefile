@@ -8,8 +8,13 @@ server.o: server.c fserver.h
 client.o: client.c fserver.h
 	gcc client.c -c
 
-client: client
+clean:
+	rm server
+	rm client
+	rm *.o
+
+rclient:
 	./client
 
-server: server
+rserver:
 	./server

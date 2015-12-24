@@ -2,7 +2,7 @@
 
 void error(int r) {
 	if(!r) {
-		printf("Error: %s", strerror(errno));
+		printf("Error: %s\n", strerror(errno));
 	}
 }
 
@@ -25,6 +25,6 @@ void connect() {
 }
 
 int main() {
-	
+	connect();	
 	return 0;
 }

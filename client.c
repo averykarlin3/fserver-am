@@ -2,14 +2,15 @@
 
 void error(int r) {
 	if(!r) {
-		printf("Error: %s", strerror(errno));
+		printf("Error: %s\n", strerror(errno));
 	}
 }
 
 void connect() {
 	char* wkp = "connect";
-	char* private = ftok("fserver.h", 2016);
-	pipe = open(wkp, O_RDWR);
+	char* private;
+	sprintf(private, "%i", ftok("fserver.h", 2016));
+	int pipe = open(wkp, O_RDWR);
 	error(pipe);
 	printf("WKP Connection Formed\n");
 	int test = mkfifo(private, 0666);
@@ -21,6 +22,6 @@ void connect() {
 }
 
 int main() {
-	
+	connect();	
 	return 0;
 }
