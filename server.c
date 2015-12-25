@@ -1,7 +1,7 @@
 #include "fserver.h"
 
 void error(int r) {
-	if(!r) {
+	if(r < 0) {
 		printf("Error: %s\n", strerror(errno));
 	}
 }
@@ -10,18 +10,28 @@ void connect() {
 	char* wkp = "connect";
 	int test = mkfifo(wkp, 0666);
 	error(test);
-	int pipe = open(wkp, O_RDWR);
-	error(pipe);
-	printf("WKP Created\n");
+	int to = open(wkp, O_RDONLY);
+	error(to);
+	printf("<S> Connected to WKP\n");
 	char buffer[100];
-	test = read(pipe, buffer, 100 * sizeof(char)); 
+	test = read(to, buffer, sizeof(buffer)); 
 	error(test);
-	printf("WKP Connection Formed\n");
-	printf("Private pipe name: %s\n", buffer);
-	test = close(pipe);
-	error(test);
-	pipe = open(buffer, O_RDWR);
-	printf("Private Pipe Connection Formed\n");
+	printf("<C> Connected to WKP\n");
+	printf("Private Pipe Name: %s\n", buffer);
+	remove(wkp);
+	int parent = fork();
+	error(parent);
+	if(!parent) {
+		int from = open(buffer, O_WRONLY);
+		error(from);
+		printf("<S> Connected to Private\n");
+		char* confirm = "<S> Connected to Private\n";
+		test = write(from, confirm, sizeof(confirm));
+		error(test);
+	}
+	else {
+		connect();
+	}
 }
 
 int main() {
