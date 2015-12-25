@@ -6,14 +6,14 @@ void error(int r) {
 	}
 }
 
-void connect() {
+int connect(int* from) {
 	char* wkp = "connect";
 	char* private;
 	sprintf(private, "%i", getpid());
-	int from = open(wkp, O_WRONLY);
-	error(from);
+	*from = open(wkp, O_WRONLY);
+	error(*from);
 	printf("<C> Connected to WKP\n");
-	int test = write(from, private, sizeof(private));
+	int test = write(*from, private, sizeof(private));
 	error(test);
 	test = mkfifo(private, 0666);
 	error(test);
@@ -25,9 +25,12 @@ void connect() {
 	printf("%s\n", buffer);
 	error(test);
 	remove(private);
+	return to;
 }
 
 int main() {
-	connect();
+	int from, to;
+	to = connect(&from);
+	//Process
 	return 0;
 }

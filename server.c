@@ -6,15 +6,15 @@ void error(int r) {
 	}
 }
 
-void connect() {
+int connect(int* to) {
 	char* wkp = "connect";
 	int test = mkfifo(wkp, 0666);
 	error(test);
-	int to = open(wkp, O_RDONLY);
-	error(to);
+	*to = open(wkp, O_RDONLY);
+	error(*to);
 	printf("<S> Connected to WKP\n");
 	char buffer[100];
-	test = read(to, buffer, sizeof(buffer)); 
+	test = read(*to, buffer, sizeof(buffer)); 
 	error(test);
 	printf("<C> Connected to WKP\n");
 	printf("Private Pipe Name: %s\n", buffer);
@@ -28,13 +28,19 @@ void connect() {
 		char* confirm = "<S> Connected to Private\n";
 		test = write(from, confirm, sizeof(confirm));
 		error(test);
+		return from;
 	}
 	else {
-		connect();
+		return -1;
 	}
 }
 
 int main() {
-	connect();	
+	int from = -1;
+	int to;
+	while(from == -1) {
+		from = connect(&to);
+	}
+	//Process
 	return 0;
 }
