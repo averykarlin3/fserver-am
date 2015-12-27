@@ -36,12 +36,22 @@ int connect(int* to) {
 }
 
 void process(int from, int to) {
-	//Function processing
+	char buffer[100];
+	int test = read(to, buffer, sizeof(buffer));
+	error(test);
+	printf("Recieved: %s\n", buffer);
+	char* buffer1 = strcat("$", buffer);
+	char* buffer2 = strcat(buffer1, "$");
+	printf("Sending: %s\n", buffer);
+	test = write(from, buffer, sizeof(buffer));
+	error(test);
 }
 
 static void sighandler(int signo) {
 	if(signo == SIGINT) {
-		//Signal handling
+		//close(from);
+		//close(to);
+		//How can I close if it is defined elsewhere
 	}
 }
 
@@ -53,7 +63,7 @@ int main() {
 		from = connect(&to);
 	}
 	while(1) {
-		process(int from, int to);
+		process(from, to);
 	}
 	return 0;
 }

@@ -29,7 +29,13 @@ int connect(int* from) {
 }
 
 void process(char* input, int from, int to) {
-	//Function processing	
+	printf("Sending: %s\n", input);
+	int test = write(from, input, sizeof(input));
+	error(test);
+	char buffer[100];
+	test = read(to, buffer, sizeof(buffer));
+	error(test);
+	printf("Processed: %s\n", buffer);
 }
 
 int main() {
@@ -42,7 +48,9 @@ int main() {
 		error(test);
 		if(!strcmp(input, "exit"))
 			break;
-		process(input);
+		process(input, from, to);
 	}
+	close(from);
+	close(to);
 	return 0;
 }
