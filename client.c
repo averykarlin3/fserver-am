@@ -28,9 +28,21 @@ int connect(int* from) {
 	return to;
 }
 
+void process(char* input, int from, int to) {
+	//Function processing	
+}
+
 int main() {
 	int from, to;
 	to = connect(&from);
-	//Process
+	while(1) {
+		char input[100];
+		printf("Insert Data: ");
+		int test = fgets(input, sizeof(input), 0);
+		error(test);
+		if(!strcmp(input, "exit"))
+			break;
+		process(input);
+	}
 	return 0;
 }

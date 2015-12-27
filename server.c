@@ -35,12 +35,25 @@ int connect(int* to) {
 	}
 }
 
+void process(int from, int to) {
+	//Function processing
+}
+
+static void sighandler(int signo) {
+	if(signo == SIGINT) {
+		//Signal handling
+	}
+}
+
 int main() {
+	signal(SIGINT, sighandler);
 	int from = -1;
 	int to;
 	while(from == -1) {
 		from = connect(&to);
 	}
-	//Process
+	while(1) {
+		process(int from, int to);
+	}
 	return 0;
 }
