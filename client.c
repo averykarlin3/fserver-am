@@ -8,7 +8,7 @@ void error(int r) {
 
 int connect(int* from) {
 	char* wkp = "connect";
-	char* private;
+	char private[100];
 	sprintf(private, "%i", getpid());
 	*from = open(wkp, O_WRONLY);
 	error(*from);
@@ -44,8 +44,10 @@ int main() {
 	while(1) {
 		char input[100];
 		printf("Insert Data: ");
-		int test = fgets(input, sizeof(input), 0);
-		error(test);
+		char* test = fgets(input, sizeof(input), stdin);
+		if (test == NULL) {
+			error(-1);
+		}
 		if(!strcmp(input, "exit"))
 			break;
 		process(input, from, to);
