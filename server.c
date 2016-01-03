@@ -56,9 +56,6 @@ static void sighandler(int signo) {
 	if(signo == SIGINT) {
 		remove("connect");
 		exit(0);
-		//close(from);
-		//close(to);
-		//How can I close if it is defined elsewhere
 	}
 }
 
