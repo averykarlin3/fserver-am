@@ -22,7 +22,6 @@ int connect(int* from) {
 	error(to);
 	char buffer[100];
 	test = read(to, buffer, sizeof(buffer));	
-	printf("%s\n", buffer);
 	error(test);
 	remove(private);
 	return to;
