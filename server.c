@@ -50,6 +50,7 @@ void process(int from, int to) {
 	}
 	test = write(from, buffer, sizeof(buffer));
 	error(test);
+	printf("Sending: %s\n", buffer);
 }
 
 static void sighandler(int signo) {
