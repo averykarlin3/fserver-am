@@ -40,9 +40,14 @@ void process(int from, int to) {
 	int test = read(to, buffer, sizeof(buffer));
 	error(test);
 	printf("Recieved: %s\n", buffer);
-	char* buffer1 = strcat("$", buffer);
-	char* buffer2 = strcat(buffer1, "$");
-	printf("Sending: %s\n", buffer);
+	int len = strlen(buffer);
+	if (buffer[len - 1] == '.') {
+		buffer[len - 1] = '\0';
+	}
+	else{
+		buffer[len] = '.';
+		buffer[len + 1] = '\0';
+	}
 	test = write(from, buffer, sizeof(buffer));
 	error(test);
 }

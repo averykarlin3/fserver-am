@@ -44,13 +44,23 @@ int main() {
 	while(1) {
 		char input[100];
 		printf("Insert Data: ");
-		char* test = fgets(input, sizeof(input), stdin);
-		if (test == NULL) {
+		char* testa = fgets(input, sizeof(input), stdin);
+		*strchr(input, '\n') = 0;
+		//printf("Input: %s", input);
+		//printf("Size of Input: %lu\n", sizeof(test));
+		if (testa == NULL) {
 			error(-1);
 		}
 		if(!strcmp(input, "exit"))
 			break;
-		process(input, from, to);
+		//process(input, from, to);
+		printf("Sending: %s\n", input);
+		int test = write(from, input, sizeof(input));
+		error(test);
+		char buffer[100];
+		test = read(to, buffer, sizeof(buffer));
+		error(test);
+		printf("Processed: %s\n", buffer);
 	}
 	close(from);
 	close(to);
